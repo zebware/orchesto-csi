@@ -2,7 +2,7 @@
 
 ## Description
 
-⚠️ This is a preview of orchesto-csi not meant for production use
+⚠️ This is a preview of orchesto-csi not meant for production use ⚠️
 
 This guide contains instructions on how to deploy orchesto-csi to your kubernetes cluster.
 
@@ -104,7 +104,7 @@ kubectl apply -f pvc/pvc.yaml
 ```
 
 
-## pod
+## Pod
 
 Launch a pod
 
