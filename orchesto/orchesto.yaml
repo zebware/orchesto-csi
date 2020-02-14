@@ -1,0 +1,82 @@
+---
+kind: ConfigMap
+apiVersion: v1
+data:
+  license.json: |
+    {
+      "orchestoLicense": "INSERT LICENSE HERE"
+    }
+metadata:
+  creationTimestamp: null
+  name: orchesto-license
+  namespace: orchesto
+
+---
+kind: ConfigMap
+apiVersion: v1
+data:
+  dsnFile: |
+    postgres://orchesto:orchesto@postgres:5432/orchesto?sslmode=disable
+
+metadata:
+  creationTimestamp: null
+  name: orchesto-dsn-file
+  namespace: orchesto
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchesto-gateway
+  namespace: orchesto
+  labels:
+    app: orchesto-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orchesto-gateway
+  template:
+    metadata:
+      labels:
+        app: orchesto-gateway
+    spec:
+      volumes:
+      - name: dsn-file
+        configMap:
+          name: orchesto-dsn-file
+      - name: license-file
+        configMap:
+          name: orchesto-license
+      containers:
+      - name: orchesto-gateway
+        image: zebware/orchesto:latest
+        ports:
+        - containerPort: 9090
+        command: ["/bin/sh", "-c"]
+        args: ["cp /root/dsn-file/dsnFile /root/dsnFile && cp /root/license-file/license.json /root/license.json && orchesto --wbc /root/wbc --dsn-file /root/dsnFile --activate /root/license.json --accept-eula"]
+        volumeMounts:
+        - name: dsn-file
+          mountPath: "/root/dsn-file"
+        - name: license-file
+          mountPath: "/root/license-file"
+        env:
+        - name: LOCALPROVIDER_HOST
+          value: "10.200.0.25"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orchesto-gateway
+  namespace: orchesto
+  labels:
+    app: orchesto-gateway
+spec:
+  selector:
+    app: orchesto-gateway
+  ports:
+  - protocol: TCP
+    port: 9090
+    targetPort: 9090
+  type: LoadBalancer

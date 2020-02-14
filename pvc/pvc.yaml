@@ -1,0 +1,25 @@
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: orchestotestbucket
+  namespace: orchesto
+stringData:
+  accessKeyID: "ACCESS KEY"
+  secretAccessKey: "SECRET KEY"
+  endpoint: "http://ENDPOINT"
+  region: "REGION"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: orchestotestbucket
+  namespace: orchesto
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: csi-s3
