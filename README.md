@@ -4,6 +4,8 @@
 
 ⚠️ This is a preview of orchesto-csi not meant for production use ⚠️
 
+Deployment files support kubernetes version 17.2
+
 This guide contains instructions on how to deploy orchesto-csi to your kubernetes cluster.
 
 When you are done you will have a pod running in your cluster using Orchesto as csi backend.
