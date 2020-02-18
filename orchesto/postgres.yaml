@@ -13,40 +13,6 @@ data:
   POSTGRES_INITDB_ARGS: "-E 'UTF-8' --locale=C"
 
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv
-  namespace: orchesto
-  labels:
-    type: local
-    app: postgres
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/data"
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-pvc
-  namespace: orchesto
-  labels:
-    app: postgres
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
-
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -71,13 +37,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-config
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgredb
-      volumes:
-        - name: postgredb
-          persistentVolumeClaim:
-            claimName: postgres-pvc
 
 ---
 apiVersion: v1
