@@ -47,9 +47,6 @@ spec:
           mountPath: "/root/dsn-file"
         - name: license-file
           mountPath: "/root/license-file"
-        env:
-        - name: LOCALPROVIDER_HOST
-          value: "10.200.0.25"
 
 ---
 apiVersion: v1
