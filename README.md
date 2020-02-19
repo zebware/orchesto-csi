@@ -13,11 +13,9 @@ When you are done you will have a pod running in your cluster using Orchesto as 
 
 ## Preparation
 
-Clone our orchesto-csi repo [orchesto-csi](http://github.com/zebware/orchesto-csi.git)
-
-Update the configmap containing license.json in `orchesto/orchesto.yaml` with your license key.
-
-Create a new namespace in your kubernetes cluster
+1. Clone our orchesto-csi repo [orchesto-csi](http://github.com/zebware/orchesto-csi.git)
+2. Add your license to `orchesto/license.yaml`.
+3. Create a new namespace in your kubernetes cluster.
 
 ```sh
 kubectl create ns orchesto

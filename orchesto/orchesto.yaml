@@ -2,19 +2,6 @@
 kind: ConfigMap
 apiVersion: v1
 data:
-  license.json: |
-    {
-      "orchestoLicense": "INSERT LICENSE HERE"
-    }
-metadata:
-  creationTimestamp: null
-  name: orchesto-license
-  namespace: orchesto
-
----
-kind: ConfigMap
-apiVersion: v1
-data:
   dsnFile: |
     postgres://orchesto:orchesto@postgres:5432/orchesto?sslmode=disable
 
