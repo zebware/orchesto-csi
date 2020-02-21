@@ -85,8 +85,8 @@ spec:
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/kubelet/plugins/ch.ctrox.csi.s3-driver
-        - name: csi-s3
-          image: zebware/csi-s3:latest
+        - name: csi
+          image: zebware/csi:latest
           args:
             - "--endpoint=$(CSI_ENDPOINT)"
             - "--nodeid=$(NODE_ID)"

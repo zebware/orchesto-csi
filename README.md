@@ -78,10 +78,10 @@ kubectl apply -f csi/attacher.yaml
 
 Make sure the attacher and provisioner is up and ready before continuing
 
-deploy csi-s3
+deploy csi
 
 ```sh
-kubectl apply -f csi/csi-s3.yaml
+kubectl apply -f csi/csi.yaml
 ```
 
 and a storage class

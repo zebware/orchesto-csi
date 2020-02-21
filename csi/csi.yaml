@@ -2,13 +2,13 @@
 kind: ServiceAccount
 apiVersion: v1
 metadata:
-  name: csi-s3
+  name: csi
   namespace: orchesto
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: csi-s3
+  name: csi
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
@@ -29,31 +29,31 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: csi-s3
+  name: csi
 subjects:
   - kind: ServiceAccount
-    name: csi-s3
+    name: csi
     namespace: orchesto
 roleRef:
   kind: ClusterRole
-  name: csi-s3
+  name: csi
   apiGroup: rbac.authorization.k8s.io
 ---
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
-  name: csi-s3
+  name: csi
   namespace: orchesto
 spec:
   selector:
     matchLabels:
-      app: csi-s3
+      app: csi
   template:
     metadata:
       labels:
-        app: csi-s3
+        app: csi
     spec:
-      serviceAccount: csi-s3
+      serviceAccount: csi
       hostNetwork: true
       containers:
         - name: driver-registrar
@@ -76,13 +76,13 @@ spec:
               mountPath: /csi
             - name: registration-dir
               mountPath: /registration/
-        - name: csi-s3
+        - name: csi
           securityContext:
             privileged: true
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: zebware/csi-s3:latest
+          image: zebware/csi:latest
           args:
             - "--endpoint=$(CSI_ENDPOINT)"
             - "--nodeid=$(NODE_ID)"
