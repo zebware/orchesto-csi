@@ -43,13 +43,13 @@ roleRef:
 kind: Service
 apiVersion: v1
 metadata:
-  name: csi-provisioner-s3
+  name: csi-provisioner
   namespace: orchesto
   labels:
-    app: csi-provisioner-s3
+    app: csi-provisioner
 spec:
   selector:
-    app: csi-provisioner-s3
+    app: csi-provisioner
   ports:
     - name: dummy
       port: 12345
@@ -57,18 +57,18 @@ spec:
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-  name: csi-provisioner-s3
+  name: csi-provisioner
   namespace: orchesto
 spec:
-  serviceName: "csi-provisioner-s3"
+  serviceName: "csi-provisioner"
   replicas: 1
   selector:
     matchLabels:
-      app: csi-provisioner-s3
+      app: csi-provisioner
   template:
     metadata:
       labels:
-        app: csi-provisioner-s3
+        app: csi-provisioner
     spec:
       serviceAccount: csi-provisioner-sa
       containers:

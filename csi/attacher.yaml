@@ -45,13 +45,13 @@ roleRef:
 kind: Service
 apiVersion: v1
 metadata:
-  name: csi-attacher-s3
+  name: csi-attacher
   namespace: orchesto
   labels:
-    app: csi-attacher-s3
+    app: csi-attacher
 spec:
   selector:
-    app: csi-attacher-s3
+    app: csi-attacher
   ports:
     - name: dummy
       port: 12345
@@ -60,18 +60,18 @@ spec:
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-  name: csi-attacher-s3
+  name: csi-attacher
   namespace: orchesto
 spec:
-  serviceName: "csi-attacher-s3"
+  serviceName: "csi-attacher"
   replicas: 1
   selector:
     matchLabels:
-      app: csi-attacher-s3
+      app: csi-attacher
   template:
     metadata:
       labels:
-        app: csi-attacher-s3
+        app: csi-attacher
     spec:
       serviceAccount: csi-attacher-sa
       containers:
