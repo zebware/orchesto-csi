@@ -31,7 +31,7 @@ kubectl apply -f orchesto/postgres.yaml
 
 ## Orchesto
 
-Run deployment
+Deploy Orchesto
 
 ```sh
 kubectl apply -f orchesto/license.yaml
@@ -48,7 +48,7 @@ Forwarding from [::1]:9090 -> 9090
 
 Visit your [orchesto gateway](http://localhost:9090/) through the browser. Rember to store your Access Key and Secret Access Key. Click continue without Vault.
 
-Configure Orchesto through the ui
+Configure Orchesto through the web-ui
 
 1. Add backend
 
@@ -63,17 +63,12 @@ $ kubectl -n orchesto logs deployment/orchesto-gateway|grep 'Username:' -A 2
 
 ## CSI driver
 
-Go ahead and deploy our csi-driver to your cluster
+Go ahead and deploy the csi-plugin to your cluster
 
-provisioner:
+provisioner and attacher:
 
 ```sh
 kubectl apply -f csi/provisioner.yaml
-```
-
-attacher:
-
-```sh
 kubectl apply -f csi/attacher.yaml
 ```
 
@@ -85,7 +80,7 @@ deploy csi
 kubectl apply -f csi/csi.yaml
 ```
 
-and a storage class
+add a storage class
 
 ```sh
 kubectl apply -f csi/storageclass.yaml
@@ -94,20 +89,19 @@ kubectl apply -f csi/storageclass.yaml
 
 ## Persistent Volume Claim
 
-Creating a pvc requires some editing of `pvc/pvc.yaml`. Edit the fields `accessKeyID`, `secretAccessKey` and `region` with the correct values. The `region` value must match the region of your backend that was configured in the step Orchesto, above. The `region` must match the region of your backend that was configured in Orchesto.
+Creating a pvc requires some editing of `pvc/pvc.yaml`. Edit the fields `accessKeyID`, `secretAccessKey` and `region` with the correct values. The `region` value must match the region of your backend that was configured in the step Orchesto, above. The `region` must match the region of the backend which you configured in the web-ui.
 
 You can find the region in the [dashboard](http://localhost:9090/orchesto/#/dashboard)
 
-When the `pvc.yaml` file is updated go ahead and apply it.
+Go ahead and apply `pvc/pvc.yaml` after you configured it.
 
 ```sh
 kubectl apply -f pvc/pvc.yaml
 ```
 
-
 ## Pod
 
-Launch a pod
+Launch a pod using the pvc-claim
 
 ```sh
 kubectl apply -f pod/pod.yaml
@@ -122,5 +116,5 @@ $ kubectl exec -n orchesto -it orchesto-pod -- bash
 root@orchesto-pod:/# echo "My very secret secret stored in the cloud" > /var/lib/www/html/secret.txt
 ```
 
-1. Visit your backend CSP ☁️ and look at the files in the bucket you created.
+1. Visit your backend CSP ☁️ and have a look at the file in the bucket you created.
 2. Visit your [orchesto gateway bucket](http://localhost:9090/orchesto/#/browse/) and download your file and open it
