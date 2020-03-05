@@ -34,6 +34,7 @@ kubectl apply -f orchesto/postgres.yaml
 Run deployment
 
 ```sh
+kubectl apply -f orchesto/license.yaml
 kubectl apply -f orchesto/orchesto.yaml
 ```
 
