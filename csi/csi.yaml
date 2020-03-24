@@ -1,6 +1,5 @@
----
-kind: ServiceAccount
 apiVersion: v1
+kind: ServiceAccount
 metadata:
   name: csi
   namespace: orchesto
@@ -66,7 +65,7 @@ spec:
             - name: ADDRESS
               value: /csi/csi.sock
             - name: DRIVER_REG_SOCK_PATH
-              value: /var/lib/kubelet/plugins/csi-driver/csi.sock
+              value: /var/lib/kubelet/plugins/ch.ctrox.csi.s3-driver/csi.sock
             - name: KUBE_NODE_NAME
               valueFrom:
                 fieldRef:
@@ -82,7 +81,7 @@ spec:
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: zebware/csi:dev-full
+          image: zebware/csi:dev
           args:
             - "--endpoint=$(CSI_ENDPOINT)"
             - "--nodeid=$(NODE_ID)"
@@ -110,7 +109,7 @@ spec:
             type: DirectoryOrCreate
         - name: plugin-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/csi-driver
+            path: /var/lib/kubelet/plugins/ch.ctrox.csi.s3-driver
             type: DirectoryOrCreate
         - name: pods-mount-dir
           hostPath:
